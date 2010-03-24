@@ -14,7 +14,7 @@ gem "mysql"
 # gem "hpricot", "0.6"
 # gem "sqlite3-ruby", :require => "sqlite3"
 # gem "aws-s3", :require => "aws/s3"
-gem "googlecharts", "1.5.3", :require => "gchart"
+gem "googlecharts", "1.5.4", :require => "gchart"
 
 ## Bundle gems used only in certain environments:
 # gem "rspec", :group => :test
