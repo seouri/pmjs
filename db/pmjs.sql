@@ -27,6 +27,9 @@ CREATE TABLE `cosubjectships` (
   `subject_id` int(11) DEFAULT NULL,
   `cosubject_id` int(11) DEFAULT NULL,
   `articles_count` mediumint(9) DEFAULT NULL,
+  `start_year` smallint(6) DEFAULT '0',
+  `end_year` smallint(6) DEFAULT '0',
+  `articles_counts` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `index_cosubjectships_on_subject_id_and_articles_count` (`subject_id`,`articles_count`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
