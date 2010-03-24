@@ -1,0 +1,23 @@
+#hd {
+  background-color: #eee;
+}
+ul.years {
+  margin: 0;
+}
+.years li {
+  list-style: none;
+  display: inline;
+}
+
+.treelist ul {
+  margin: 0 1em;
+}
+
+.direct {
+  padding: 0 0.25em;
+  background-color: #fc0;
+}
+.descendant {
+  padding: 0 0.25em;
+  background-color: #ccc;
+}

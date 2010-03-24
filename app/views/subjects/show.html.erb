@@ -1,0 +1,24 @@
+<h1><%= @subject.term %></h1>
+
+<%= bar_graph2(@subject)%>
+<%= years(@subject)%>
+
+
+<h2>Top Journals<% if @year > 0 %> in <%= @year %><% end %></h2>
+
+<%= top_items(@subject)%>
+
+<h2>Top Cosubjects</h2>
+<% if !@subject.top_cosubjects.blank? %>
+<ol>
+  <% for item in @subject.top_cosubjects %>
+    <li><%= link_to(item.cosubject.term, item.cosubject) %> (<%= content_tag(:span, number_with_delimiter(item.articles_count), :class => "direct") %>)</li>
+  <% end %>
+</ol>
+<% else %>
+  
+<% end %>
+
+<% content_for(:sidebar) do -%>
+<%= raw(treelist(@subject)) %>
+<% end -%>

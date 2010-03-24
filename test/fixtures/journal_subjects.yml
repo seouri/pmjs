@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  journals_id: 1
+  year: 1
+  subject_id: 1
+  articles_count: 1
+
+two:
+  journals_id: 1
+  year: 1
+  subject_id: 1
+  articles_count: 1

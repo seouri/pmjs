@@ -1,0 +1,15 @@
+<% form_for(@subject) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :term %><br />
+    <%= f.text_field :term %>
+  </div>
+  <div class="field">
+    <%= f.label :articles_count %><br />
+    <%= f.text_field :articles_count %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
