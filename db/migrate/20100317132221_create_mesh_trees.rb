@@ -1,7 +1,7 @@
 class CreateMeshTrees < ActiveRecord::Migration
   def self.up
     create_table :mesh_trees do |t|
-      t.string  :tree_number
+      t.string  :tree_number, :limit => 64
       t.integer :subject_id
       t.integer :parent_id
     end

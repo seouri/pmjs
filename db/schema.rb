@@ -14,28 +14,28 @@ ActiveRecord::Schema.define(:version => 20100319134124) do
   create_table "cosubjectships", :force => true do |t|
     t.integer "subject_id"
     t.integer "cosubject_id"
-    t.integer "articles_count"
+    t.integer "articles_count", :limit => 3
   end
 
   add_index "cosubjectships", ["subject_id", "articles_count"], :name => "index_cosubjectships_on_subject_id_and_articles_count"
 
   create_table "journal_subjects", :force => true do |t|
     t.integer "journal_id"
-    t.integer "year",                      :default => 0
+    t.integer "year",                      :limit => 2, :default => 0
     t.integer "subject_id"
-    t.integer "direct_articles_count",     :default => 0
-    t.integer "descendant_articles_count", :default => 0
-    t.integer "articles_count",            :default => 0
+    t.integer "direct_articles_count",     :limit => 2, :default => 0
+    t.integer "descendant_articles_count", :limit => 3, :default => 0
+    t.integer "articles_count",            :limit => 3, :default => 0
   end
 
   add_index "journal_subjects", ["journal_id", "year", "direct_articles_count", "articles_count"], :name => "index_journal_subjects_on_journal_id_year_direct_articles_count"
   add_index "journal_subjects", ["subject_id", "year", "direct_articles_count", "articles_count"], :name => "index_journal_subjects_on_subject_id_year_direct_articles_count"
 
   create_table "journals", :force => true do |t|
-    t.string  "abbr"
-    t.integer "articles_count",  :default => 0
-    t.integer "start_year",      :default => 0
-    t.integer "end_year",        :default => 0
+    t.string  "abbr",            :limit => 128
+    t.integer "articles_count",  :limit => 3,   :default => 0
+    t.integer "start_year",      :limit => 2,   :default => 0
+    t.integer "end_year",        :limit => 2,   :default => 0
     t.text    "articles_counts"
   end
 
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20100319134124) do
   add_index "journals", ["articles_count"], :name => "index_journals_on_articles_count"
 
   create_table "mesh_trees", :force => true do |t|
-    t.string  "tree_number"
+    t.string  "tree_number", :limit => 64
     t.integer "subject_id"
     t.integer "parent_id"
   end
@@ -51,12 +51,12 @@ ActiveRecord::Schema.define(:version => 20100319134124) do
   add_index "mesh_trees", ["parent_id"], :name => "index_mesh_trees_on_parent_id"
 
   create_table "subjects", :force => true do |t|
-    t.string  "term"
-    t.integer "direct_articles_count",      :default => 0
-    t.integer "descendant_articles_count",  :default => 0
-    t.integer "articles_count",             :default => 0
-    t.integer "start_year",                 :default => 0
-    t.integer "end_year",                   :default => 0
+    t.string  "term",                       :limit => 128
+    t.integer "direct_articles_count",      :limit => 3,   :default => 0
+    t.integer "descendant_articles_count",                 :default => 0
+    t.integer "articles_count",                            :default => 0
+    t.integer "start_year",                 :limit => 2,   :default => 0
+    t.integer "end_year",                   :limit => 2,   :default => 0
     t.text    "direct_articles_counts"
     t.text    "descendant_articles_counts"
     t.text    "articles_counts"

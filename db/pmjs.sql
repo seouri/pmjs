@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.39, for apple-darwin9.5.0 (i386)
+-- MySQL dump 10.13  Distrib 5.1.45, for apple-darwin9.8.0 (i386)
 --
--- Host: localhost    Database: pmjs
+-- Host: localhost    Database: pmjs2
 -- ------------------------------------------------------
--- Server version	5.1.39
+-- Server version	5.1.45
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ CREATE TABLE `cosubjectships` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subject_id` int(11) DEFAULT NULL,
   `cosubject_id` int(11) DEFAULT NULL,
-  `articles_count` int(11) DEFAULT NULL,
+  `articles_count` mediumint(9) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_cosubjectships_on_subject_id_and_articles_count` (`subject_id`,`articles_count`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -52,11 +52,11 @@ DROP TABLE IF EXISTS `journal_subjects`;
 CREATE TABLE `journal_subjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `journal_id` int(11) DEFAULT NULL,
-  `year` int(11) DEFAULT '0',
+  `year` smallint(6) DEFAULT '0',
   `subject_id` int(11) DEFAULT NULL,
-  `direct_articles_count` int(11) DEFAULT '0',
-  `descendant_articles_count` int(11) DEFAULT '0',
-  `articles_count` int(11) DEFAULT '0',
+  `direct_articles_count` smallint(6) DEFAULT '0',
+  `descendant_articles_count` mediumint(9) DEFAULT '0',
+  `articles_count` mediumint(9) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_journal_subjects_on_journal_id_year_direct_articles_count` (`journal_id`,`year`,`direct_articles_count`,`articles_count`),
   KEY `index_journal_subjects_on_subject_id_year_direct_articles_count` (`subject_id`,`year`,`direct_articles_count`,`articles_count`)
@@ -82,10 +82,10 @@ DROP TABLE IF EXISTS `journals`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `journals` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `abbr` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `articles_count` int(11) DEFAULT '0',
-  `start_year` int(11) DEFAULT '0',
-  `end_year` int(11) DEFAULT '0',
+  `abbr` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `articles_count` mediumint(9) DEFAULT '0',
+  `start_year` smallint(6) DEFAULT '0',
+  `end_year` smallint(6) DEFAULT '0',
   `articles_counts` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `index_journals_on_abbr` (`abbr`),
@@ -112,7 +112,7 @@ DROP TABLE IF EXISTS `mesh_trees`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mesh_trees` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tree_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tree_number` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `subject_id` int(11) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -162,12 +162,12 @@ DROP TABLE IF EXISTS `subjects`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `term` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `direct_articles_count` int(11) DEFAULT '0',
+  `term` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `direct_articles_count` mediumint(9) DEFAULT '0',
   `descendant_articles_count` int(11) DEFAULT '0',
   `articles_count` int(11) DEFAULT '0',
-  `start_year` int(11) DEFAULT '0',
-  `end_year` int(11) DEFAULT '0',
+  `start_year` smallint(6) DEFAULT '0',
+  `end_year` smallint(6) DEFAULT '0',
   `direct_articles_counts` text COLLATE utf8_unicode_ci,
   `descendant_articles_counts` text COLLATE utf8_unicode_ci,
   `articles_counts` text COLLATE utf8_unicode_ci,
@@ -197,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-03-22  9:21:10
+-- Dump completed on 2010-03-24 16:11:00
