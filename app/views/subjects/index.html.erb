@@ -9,3 +9,7 @@
 </ol>
 
 <%= pagination %>
+
+<% content_for(:sidebar) do -%>
+<%= raw(treelist(nil)) %>
+<% end -%>
