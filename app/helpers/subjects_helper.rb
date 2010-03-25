@@ -6,14 +6,23 @@ module SubjectsHelper
       list.push(content_tag(:ul, children.join("\n"), :class => "treelist"))
     else
       subject.mesh_trees.each do |tree|
-        children = tree.children.map {|c| c.subject ? content_tag(:li, link_to(c.subject.term, c.subject)) : ""}
+        children = tree.children.map {|c| c.subject ? content_tag(:li, link_to(c.subject.term, c.subject) + sparkline(c.subject)) : ""}
         current = content_tag(:ul, content_tag(:li, content_tag(:strong, subject.term)) + content_tag(:ul, children.join("\n")), :class => "treelist")
         ancestors = tree.ancestors.reverse.inject(current) do |html, a|
-          content_tag(:ul, content_tag(:li, (a.subject ? link_to(a.subject.term, a.subject) : a.subject_id.to_s) + "\n" + html), :class => "treelist")
+          content_tag(:ul, content_tag(:li, (a.subject ? link_to(a.subject.term, a.subject)  + sparkline(a.subject) : a.subject_id.to_s) + "\n" + html), :class => "treelist")
         end
         list.push(ancestors)
       end
     end
     list.join("\n")
+  end
+
+  def sparkline(item)
+    data = item.articles_counts.split(/\|/).map {|s| s.to_i}
+    width = data.size * 1
+    height = 12
+    size = "#{width}x#{height}"
+    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFCC00,0,0,0")
+    image_tag(source)
   end
 end

@@ -12,7 +12,7 @@
 <% if !@subject.top_cosubjects.blank? %>
 <ol>
   <% for item in @subject.top_cosubjects %>
-    <li><%= link_to(item.cosubject.term, item.cosubject) %> (<%= content_tag(:span, number_with_delimiter(item.articles_count), :class => "direct") %>)</li>
+    <li><%= link_to(item.cosubject.term, item.cosubject) %> (<%= content_tag(:span, number_with_delimiter(item.articles_count), :class => "direct") %>) <%= sparkline(item.cosubject)%> (<%= item.cosubject.start_year %>-<%= item.cosubject.end_year %>)</li>
   <% end %>
 </ol>
 <% else %>
