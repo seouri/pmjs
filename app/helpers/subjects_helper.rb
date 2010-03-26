@@ -16,13 +16,4 @@ module SubjectsHelper
     end
     list.join("\n")
   end
-
-  def sparkline(item)
-    data = item.articles_counts.split(/\|/).map {|s| s.to_i}
-    width = data.size * 1
-    height = 12
-    size = "#{width}x#{height}"
-    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFCC00,0,0,0")
-    image_tag(source)
-  end
 end

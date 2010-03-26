@@ -4,7 +4,7 @@
 
 <ol>
 <% @subjects.each do |subject| -%>
-  <li value="<%= @offset + @subjects.index(subject) + 1 %>"><%= link_to subject.to_s, subject %> (<%= pluralize(number_with_delimiter(subject.articles_count), "article") %>)<br /><%= link_to(bar_graph2(subject), subject) %></li>
+  <li value="<%= @offset + @subjects.index(subject) + 1 %>"><%= link_to subject.to_s, subject %> (<%= pluralize(number_with_delimiter(subject.articles_count), "article") %>) <%= sparkline(subject)%></li>
 <% end -%>
 </ol>
 

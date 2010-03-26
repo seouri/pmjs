@@ -4,7 +4,7 @@
 
 <ol>
 <% @journals.each do |journal| -%>
-  <li value="<%= @offset + @journals.index(journal) + 1 %>"><%= link_to journal.to_s, journal %> (<%= pluralize(number_with_delimiter(journal.articles_count), "article") %>)<br /><%= link_to(bar_graph(journal), journal) %></li>
+  <li value="<%= @offset + @journals.index(journal) + 1 %>"><%= link_to journal.to_s, journal %> (<%= pluralize(number_with_delimiter(journal.articles_count), "article") %>) <%= sparkline(journal)%></li>
 <% end -%>
 </ol>
 

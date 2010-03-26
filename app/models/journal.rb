@@ -6,6 +6,10 @@ class Journal < ActiveRecord::Base
     abbr
   end
 
+  def articles
+    articles_counts.split(/\|/).map {|s| s.to_i}
+  end
+
   def top(year=0)
     journal_subjects.top(year).includes(:subject)
   end

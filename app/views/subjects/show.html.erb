@@ -6,7 +6,7 @@
 
 <h2>Top Journals<% if @year > 0 %> in <%= @year %><% end %></h2>
 
-<%= top_items(@subject)%>
+<%= raw(top_items(@subject))%>
 
 <h2>Top Cosubjects</h2>
 <% if !@subject.top_cosubjects.blank? %>

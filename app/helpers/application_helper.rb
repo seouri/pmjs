@@ -27,7 +27,7 @@ module ApplicationHelper
     start_year = item.start_year
     end_year = item.end_year
     labels = (start_year .. end_year).to_a
-    data = item.articles_counts.split(/\|/).map {|s| s.to_i}
+    data = item.articles
     y_max = number_with_delimiter(data.max)
     title = item.to_s + " (" + pluralize(number_with_delimiter(item.articles_count), "article") + ")"
     width = labels.size * 7 + y_max.to_s.size * 6 + 10 + 10
@@ -41,17 +41,26 @@ module ApplicationHelper
     start_year = item.start_year
     end_year = item.end_year
     labels = (start_year .. end_year).to_a
-    data1 = item.direct_articles_counts.split(/\|/).map {|s| s.to_i}
-    data2 = item.descendant_articles_counts.split(/\|/).map {|s| s.to_i}
-    data = []
-    data1.each_index {|i| data.push(data1[i] + data2[i])}
-    y_max = number_with_delimiter(data.max)
+    data1 = item.direct_articles
+    data2 = item.descendant_articles
+    data = [data1]
+    data.push(data2) if data2.max > 0
+    y_max = number_with_delimiter(item.articles.max)
     title = item.to_s + " (" + pluralize(number_with_delimiter(item.articles_count), "article") + ")"
     width = labels.size * 7 + y_max.to_s.size * 6 + 10 + 10
     width = title.size * 5 > width ? title.size * 5 : width
     labels = labels.map {|year| year.to_i % 5 == 0 ? year : ""}
     
-    image_tag(Gchart.bar(:size => "#{width}x80",:data => [data1, data2], :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc"))
+    image_tag(Gchart.bar(:size => "#{width}x80",:data => data, :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc"))
+  end
+
+  def sparkline(item)
+    data = item.articles
+    width = data.size * 1
+    height = 12
+    size = "#{width}x#{height}"
+    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFEE99,0,0,0")
+    image_tag(source)
   end
 
   def pagination
@@ -59,7 +68,7 @@ module ApplicationHelper
     prev_offset = nil if prev_offset <= 0
     next_offset = @offset + @per_page
     pagination = []
-    pagination.push(link_to("Beggining")) if @offset > 0
+    pagination.push(link_to("Beginning")) if @offset > 0
     pagination.push(link_to("Previous #{@per_page}", :o => prev_offset)) if @offset > @per_page
     pagination.push(link_to("Next #{@per_page}", :o => next_offset))
     content_tag(:div, pagination.join("\n"))

@@ -5,4 +5,4 @@
 
 <h2>Top Subjects<% if @year > 0 %> in <%= @year %><% end %></h2>
 
-<%= top_items(@journal)%>
+<%= raw(top_items(@journal))%>

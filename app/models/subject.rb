@@ -9,6 +9,18 @@ class Subject < ActiveRecord::Base
     term
   end
 
+  def articles
+    articles_counts.split(/\|/).map {|s| s.to_i}
+  end
+
+  def direct_articles
+    direct_articles_counts.split(/\|/).map {|s| s.to_i}
+  end
+
+  def descendant_articles
+    descendant_articles_counts.split(/\|/).map {|s| s.to_i}
+  end
+
   def top(year)
     journal_subjects.top(year).includes(:journal)
   end
