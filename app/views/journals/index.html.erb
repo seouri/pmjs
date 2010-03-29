@@ -2,10 +2,15 @@
 
 <%= pagination %>
 
-<ol>
+<table>
 <% @journals.each do |journal| -%>
-  <li value="<%= @offset + @journals.index(journal) + 1 %>"><%= link_to journal.to_s, journal %> (<%= pluralize(number_with_delimiter(journal.articles_count), "article") %>) <%= sparkline(journal)%></li>
+  <tr>
+    <td><%= @offset + @journals.index(journal) + 1 %></td>
+    <td><%= link_to journal.to_s, journal %></td>
+    <td class="number"><%= pluralize(number_with_delimiter(journal.articles_count), "article") %></td>
+    <td><%= sparkline(journal)%></td>
+  </tr>
 <% end -%>
-</ol>
+</table>
 
 <%= pagination %>

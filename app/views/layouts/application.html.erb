@@ -2,11 +2,11 @@
 <html>
 <head>
 <title><%= controller.controller_name %></title>
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css">
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/base/base-min.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css&2.8.0r4/build/base/base-min.css&2.8.0r4/build/treeview/assets/skins/sam/treeview.css">
 <%= stylesheet_link_tag :all, :cache => true %>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js&2.8.0r4/build/treeview/treeview-min.js"></script>
 </head>
-<body>
+<body class="yui-skin-sam">
 <div id="doc3" class="yui-t6">
    <div id="hd" role="banner">PubMed <%= link_to("Journals", journals_path)%> &amp; <%= link_to("Subjects", subjects_path) %></div>
    <div id="bd" role="main">

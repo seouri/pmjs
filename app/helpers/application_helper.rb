@@ -1,13 +1,27 @@
 module ApplicationHelper
-  def years(item)
+  def decades(item)
     li = []
     item.start_year.upto(item.end_year) do |year|
-      li.push(content_tag(:li, link_to(year, :year => year)))
+      li.push(content_tag(:li, link_to(year, :year => year))) unless year % 10
     end
     content_tag(:ul, li.join("\n"), :class => "years")
   end
 
   def top_items(object)
+    tr = []
+    for item in object.top(@year) do
+      td = []
+      td.push(content_tag(:td, object.class == Subject ? link_to(item.journal.abbr, item.journal) : link_to(item.subject.term, item.subject)))
+      td.push(content_tag(:td, number_with_delimiter(item.direct_articles_count), :class => "direct number"))
+      td.push(content_tag(:td, number_with_delimiter(item.descendant_articles_count), :class => "descendant number"))
+      td.push(content_tag(:td, number_with_delimiter(item.articles_count), :class => "total number"))
+      td.push(content_tag(:td, sparkline(item)))
+      tr.push(content_tag(:tr, td.join("\n")))
+    end
+    content_tag(:table, tr.join("\n"))
+  end
+
+  def top_items2(object)
     li = []
     for item in object.top(@year) do
       l = object.class == Subject ? link_to(item.journal.abbr, item.journal) : link_to(item.subject.term, item.subject)
@@ -18,6 +32,7 @@ module ApplicationHelper
       l += " = "
       l += content_tag(:span, number_with_delimiter(item.articles_count), :class => "total")
       l += ")"
+      l += sparkline(item)
       li.push(content_tag(:li, l))
     end
     content_tag(:ol, li.join("\n"))
@@ -56,10 +71,10 @@ module ApplicationHelper
 
   def sparkline(item)
     data = item.articles
-    width = data.size * 1
-    height = 12
+    width = data.size * 1 + 6 * 4 * 2 + 2
+    height = 10
     size = "#{width}x#{height}"
-    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFEE99,0,0,0")
+    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFEE99,0,0,0&chxtc=0,0|1,0", :axis_labels => [["",item.start_year,""], ["",item.end_year,""]], :axis_with_labels => 'y,r')
     image_tag(source)
   end
 

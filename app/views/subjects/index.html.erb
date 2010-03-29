@@ -2,14 +2,15 @@
 
 <%= pagination %>
 
-<ol>
-<% @subjects.each do |subject| -%>
-  <li value="<%= @offset + @subjects.index(subject) + 1 %>"><%= link_to subject.to_s, subject %> (<%= pluralize(number_with_delimiter(subject.articles_count), "article") %>) <%= sparkline(subject)%></li>
-<% end -%>
-</ol>
+<%= subjects_table(@subjects) %>
 
 <%= pagination %>
 
 <% content_for(:sidebar) do -%>
-<%= raw(treelist(nil)) %>
+<%= treelist(nil) %>
+<script type="text/javascript">
+tree = new YAHOO.widget.TreeView("treelist");
+tree.render();
+tree.subscribe('clickEvent',function () {return false;});
+</script>
 <% end -%>

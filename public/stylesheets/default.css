@@ -21,3 +21,7 @@ ul.years {
   padding: 0 0.25em;
   background-color: #ccc;
 }
+
+.number {
+  text-align: right;
+}

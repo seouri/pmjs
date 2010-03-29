@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   
   def set_params
     @year = (params[:year] || 0).to_i
-    @per_page = 30
+    @per_page = 15
     @offset = (params[:o] || 0).to_i
   end
 end
