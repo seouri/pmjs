@@ -2,15 +2,6 @@
 
 <%= pagination %>
 
-<table>
-<% @journals.each do |journal| -%>
-  <tr>
-    <td><%= @offset + @journals.index(journal) + 1 %></td>
-    <td><%= link_to journal.to_s, journal %></td>
-    <td class="number"><%= pluralize(number_with_delimiter(journal.articles_count), "article") %></td>
-    <td><%= sparkline(journal)%></td>
-  </tr>
-<% end -%>
-</table>
+<%= items_table(@journals, @offset) %>
 
 <%= pagination %>

@@ -9,6 +9,9 @@ class Subject < ActiveRecord::Base
     term
   end
 
+  def to_l
+    self
+  end
   def articles
     articles_counts.split(/\|/).map {|s| s.to_i}
   end
@@ -26,6 +29,6 @@ class Subject < ActiveRecord::Base
   end
 
   def top_cosubjects
-    cosubjectships.order("`cosubjectships`.articles_count desc").limit(20).includes(:subject)
+    cosubjectships.order("`cosubjectships`.articles_count desc").limit(15).includes(:subject)
   end
 end

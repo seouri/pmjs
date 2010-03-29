@@ -1,41 +1,34 @@
 module ApplicationHelper
   def decades(item)
     li = []
-    item.start_year.upto(item.end_year) do |year|
-      li.push(content_tag(:li, link_to(year, :year => year))) unless year % 10
+    li.push(content_tag(:li, link_to_unless(@decade == 0, "All", :decade => nil)))
+    start_decade = (item.start_year / 10).round * 10
+    end_decade = (item.end_year / 10).round * 10
+    start_decade.step(end_decade, 10) do |decade|
+      li.push(content_tag(:li, link_to_unless_current(decade.to_s + "s", :decade => decade)))
     end
-    content_tag(:ul, li.join("\n"), :class => "years")
+    content_tag(:ul, li.join("\n"), :class => "decades")
   end
 
-  def top_items(object)
+  def items_table(items, offset = nil)
     tr = []
-    for item in object.top(@year) do
+    for item in items do
       td = []
-      td.push(content_tag(:td, object.class == Subject ? link_to(item.journal.abbr, item.journal) : link_to(item.subject.term, item.subject)))
-      td.push(content_tag(:td, number_with_delimiter(item.direct_articles_count), :class => "direct number"))
-      td.push(content_tag(:td, number_with_delimiter(item.descendant_articles_count), :class => "descendant number"))
+      td.push(content_tag(:td, number_with_delimiter(offset + items.index(item) + 1), :class => "number")) unless offset.nil?
+      if @journal.present? and item.class == JournalSubject
+        td.push(content_tag(:td, link_to(item.subject.to_s, item.subject)))
+      elsif @subject.present? and item.class == JournalSubject
+        td.push(content_tag(:td, link_to(item.journal.to_s, item.journal)))
+      else
+        td.push(content_tag(:td, link_to(item.to_s, item.to_l)))
+      end
+      td.push(content_tag(:td, number_with_delimiter(item.direct_articles_count), :class => "direct number")) if item.respond_to?(:direct_articles_count)
+      td.push(content_tag(:td, number_with_delimiter(item.descendant_articles_count), :class => "descendant number")) if item.respond_to?(:descendant_articles_count)
       td.push(content_tag(:td, number_with_delimiter(item.articles_count), :class => "total number"))
-      td.push(content_tag(:td, sparkline(item)))
+      td.push(content_tag(:td, sparkline(item))) if item.start_year > 0
       tr.push(content_tag(:tr, td.join("\n")))
     end
     content_tag(:table, tr.join("\n"))
-  end
-
-  def top_items2(object)
-    li = []
-    for item in object.top(@year) do
-      l = object.class == Subject ? link_to(item.journal.abbr, item.journal) : link_to(item.subject.term, item.subject)
-      l += " ("
-      l += content_tag(:span, number_with_delimiter(item.direct_articles_count), :class => "direct")
-      l += " + "
-      l += content_tag(:span, number_with_delimiter(item.descendant_articles_count), :class => "descendant")
-      l += " = "
-      l += content_tag(:span, number_with_delimiter(item.articles_count), :class => "total")
-      l += ")"
-      l += sparkline(item)
-      li.push(content_tag(:li, l))
-    end
-    content_tag(:ol, li.join("\n"))
   end
 
   def bar_graph(item)
@@ -88,6 +81,6 @@ module ApplicationHelper
     pagination.push(link_to("Beginning")) if @offset > 0
     pagination.push(link_to("Previous #{@per_page}", :o => prev_offset)) if @offset > @per_page
     pagination.push(link_to("Next #{@per_page}", :o => next_offset))
-    content_tag(:div, pagination.join("\n"))
+    content_tag(:div, pagination.join("\n"), :class => "pagination")
   end
 end

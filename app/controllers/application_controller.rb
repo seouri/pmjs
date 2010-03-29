@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_params
   
   def set_params
-    @year = (params[:year] || 0).to_i
+    @decade = (params[:decade] || 0).to_i
     @per_page = 15
     @offset = (params[:o] || 0).to_i
   end

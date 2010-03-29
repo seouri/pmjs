@@ -36,18 +36,4 @@ module SubjectsHelper
     end
     tree
   end
-
-  def subjects_table(subjects)
-    tr = []
-    for item in subjects do
-      td = []
-      td.push(content_tag(:td, link_to(item.term, item)))
-      td.push(content_tag(:td, number_with_delimiter(item.direct_articles_count), :class => "direct number"))
-      td.push(content_tag(:td, number_with_delimiter(item.descendant_articles_count), :class => "descendant number"))
-      td.push(content_tag(:td, number_with_delimiter(item.articles_count), :class => "total number"))
-      td.push(content_tag(:td, sparkline(item)))
-      tr.push(content_tag(:tr, td.join("\n")))
-    end
-    content_tag(:table, tr.join("\n"))
-  end
 end

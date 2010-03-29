@@ -3,20 +3,13 @@
 <%= bar_graph2(@subject)%>
 <%= decades(@subject)%>
 
-<h2>Top Journals<% if @year > 0 %> in <%= @year %><% end %></h2>
+<h2>Top Journals<% if @decade > 0 %> in <%= @decade %>s<% end %></h2>
 
-<%= top_items(@subject) %>
+<%= items_table(@subject.top(@decade)) %>
 
 <h2>Top Cosubjects</h2>
-<% if !@subject.top_cosubjects.blank? %>
-<ol>
-  <% for item in @subject.top_cosubjects %>
-    <li><%= link_to(item.cosubject.term, item.cosubject) %> (<%= content_tag(:span, number_with_delimiter(item.articles_count), :class => "direct") %>) <%= sparkline(item.cosubject)%> (<%= item.cosubject.start_year %>-<%= item.cosubject.end_year %>)</li>
-  <% end %>
-</ol>
-<% else %>
-  
-<% end %>
+
+<%= items_table(@subject.top_cosubjects) %>
 
 <% content_for(:sidebar) do -%>
 <%= treelist(@subject) %>
