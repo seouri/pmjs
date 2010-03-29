@@ -24,11 +24,16 @@ ActiveRecord::Schema.define(:version => 20100319134124) do
 
   create_table "journal_subjects", :force => true do |t|
     t.integer "journal_id"
-    t.integer "year",                      :limit => 2, :default => 0
+    t.integer "year",                       :limit => 2, :default => 0
     t.integer "subject_id"
-    t.integer "direct_articles_count",     :limit => 2, :default => 0
-    t.integer "descendant_articles_count", :limit => 3, :default => 0
-    t.integer "articles_count",            :limit => 3, :default => 0
+    t.integer "direct_articles_count",      :limit => 2, :default => 0
+    t.integer "descendant_articles_count",  :limit => 3, :default => 0
+    t.integer "articles_count",             :limit => 3, :default => 0
+    t.integer "start_year",                 :limit => 2, :default => 0
+    t.integer "end_year",                   :limit => 2, :default => 0
+    t.text    "direct_articles_counts"
+    t.text    "descendant_articles_counts"
+    t.text    "articles_counts"
   end
 
   add_index "journal_subjects", ["journal_id", "year", "direct_articles_count", "articles_count"], :name => "index_journal_subjects_on_journal_id_year_direct_articles_count"
