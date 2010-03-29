@@ -48,8 +48,8 @@ module ApplicationHelper
     width = labels.size * 7 + y_max.to_s.size * 6 + 10 + 10
     width = title.size * 5 > width ? title.size * 5 : width
     labels = labels.map {|year| year.to_i % 5 == 0 ? year : ""}
-    
-    image_tag(Gchart.bar(:size => "#{width}x80",:data => data, :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc"))
+    vgrids = labels.select {|y| y % 10 == 0}.map {|y| "V,DDDDDD,0,#{labels.index(y)},1,-1"}.join("|")
+    image_tag(Gchart.bar(:size => "#{width}x80",:data => data, :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc", :custom => "chm=#{vgrids}"))
   end
 
   def bar_graph2(item)
@@ -65,8 +65,8 @@ module ApplicationHelper
     width = labels.size * 7 + y_max.to_s.size * 6 + 10 + 10
     width = title.size * 5 > width ? title.size * 5 : width
     labels = labels.map {|year| year.to_i % 5 == 0 ? year : ""}
-    
-    image_tag(Gchart.bar(:size => "#{width}x80",:data => data, :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc"))
+    vgrids = labels.select {|y| y % 10 == 0}.map {|y| "V,DDDDDD,0,#{labels.index(y)},1,-1"}.join("|")
+    image_tag(Gchart.bar(:size => "#{width}x80",:data => data, :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc", :custom => "chm=#{vgrids}"))
   end
 
   def sparkline(item)
@@ -74,7 +74,9 @@ module ApplicationHelper
     width = data.size * 1 + 6 * 4 * 2 + 2
     height = 10
     size = "#{width}x#{height}"
-    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFEE99,0,0,0&chxtc=0,0|1,0", :axis_labels => [["",item.start_year,""], ["",item.end_year,""]], :axis_with_labels => 'y,r')
+    labels = (item.start_year .. item.end_year).to_a
+    vgrids = labels.select {|y| y % 10 == 0}.map {|y| "V,DDDDDD,0,#{labels.index(y)},1,-1"}.join("|")
+    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFEE99,0,0,0|#{vgrids}&chxtc=0,0|1,0", :axis_labels => [["",item.start_year,""], ["",item.end_year,""]], :axis_with_labels => 'y,r')
     image_tag(source)
   end
 
