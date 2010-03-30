@@ -68,6 +68,6 @@ ul.decades {
   text-align: right;
 }
 
-td {
+td, th {
   border: 1px solid #ccc;
 }

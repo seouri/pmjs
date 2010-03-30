@@ -12,6 +12,20 @@ module ApplicationHelper
 
   def items_table(items, offset = nil)
     tr = []
+    td = []
+    td.push(content_tag(:th, "No")) unless offset.nil?
+    if @journal.present? and items[0].class == JournalSubject
+      td.push(content_tag(:th, "Subject"))
+    elsif @subject.present? and items[0].class == JournalSubject
+      td.push(content_tag(:th, "Journal"))
+    else
+      td.push(content_tag(:th, items[0].to_l.class.to_s))
+    end
+    td.push(content_tag(:th, "Direct")) if items[0].respond_to?(:direct_articles_count)
+    td.push(content_tag(:th, "Descendant")) if items[0].respond_to?(:descendant_articles_count)
+    td.push(content_tag(:th, "Total"))
+    td.push(content_tag(:th, "")) if items[0].start_year > 0
+    tr.push(content_tag(:tr, td.join("\n")))
     for item in items do
       td = []
       td.push(content_tag(:td, number_with_delimiter(offset + items.index(item) + 1), :class => "number")) unless offset.nil?
