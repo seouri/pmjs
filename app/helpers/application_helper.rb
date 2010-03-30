@@ -67,8 +67,15 @@ module ApplicationHelper
     height = 10
     size = "#{width}x#{height}"
     labels = (item.start_year .. item.end_year).to_a
+    chm = ["B,FFEE99,0,0,0"]
+    if @decade > 0
+      decade_range = labels.select {|y| (y / 10).round * 10 == @decade}
+      vrange = "B,EECC33,0,#{labels.index(decade_range[0])}:#{labels.index(decade_range[-1])}:1,5"
+      chm.push(vrange)
+    end
     vgrids = labels.select {|y| y % 10 == 0}.map {|y| "V,DDDDDD,0,#{labels.index(y)},1,-1"}.join("|")
-    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=B,FFEE99,0,0,0|#{vgrids}&chxtc=0,0|1,0", :axis_labels => [["",item.start_year,""], ["",item.end_year,""]], :axis_with_labels => 'y,r')
+    chm.push(vgrids)
+    source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=#{chm.join("|")}&chxtc=0,0|1,0", :axis_labels => [["",item.start_year,""], ["",item.end_year,""]], :axis_with_labels => 'y,r')
     image_tag(source)
   end
 
