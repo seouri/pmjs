@@ -4,14 +4,6 @@ class JournalSubject < ActiveRecord::Base
   
   scope :top, lambda {|decade| where(:year => decade).order("direct_articles_count desc, articles_count desc").limit(15)}
 
-  def to_s
-    
-  end
-
-  def to_l
-    
-  end
-
   def articles
     articles_counts.split(/\|/).map {|s| s.to_i}
   end
