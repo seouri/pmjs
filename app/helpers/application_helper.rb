@@ -35,24 +35,12 @@ module ApplicationHelper
     start_year = item.start_year
     end_year = item.end_year
     labels = (start_year .. end_year).to_a
-    data = item.articles
-    y_max = number_with_delimiter(data.max)
-    title = item.to_s + " (" + pluralize(number_with_delimiter(item.articles_count), "article") + ")"
-    width = labels.size * 7 + y_max.to_s.size * 6 + 10 + 10
-    width = title.size * 5 > width ? title.size * 5 : width
-    labels = labels.map {|year| year.to_i % 5 == 0 ? year : ""}
-    vgrids = labels.select {|y| y % 10 == 0}.map {|y| "V,DDDDDD,0,#{labels.index(y)},1,-1"}.join("|")
-    image_tag(Gchart.bar(:size => "#{width}x80",:data => data, :axis_labels => [labels, [0, y_max]], :axis_with_labels => 'x,y', :bar_width_and_spacing => {:width => 5, :spacing => 2}, :title => title, :title_size => '11', :bar_colors => "ffcc00,cccccc", :custom => "chm=#{vgrids}"))
-  end
-
-  def bar_graph2(item)
-    start_year = item.start_year
-    end_year = item.end_year
-    labels = (start_year .. end_year).to_a
-    data1 = item.direct_articles
-    data2 = item.descendant_articles
-    data = [data1]
-    data.push(data2) if data2.max > 0
+    data1 = item.direct_articles if item.respond_to?(:direct_articles)
+    data2 = item.descendant_articles if item.respond_to?(:descendant_articles)
+    data = []
+    data.push(data1) if data1.present? and data1.max > 0
+    data.push(data2) if data2.present? and data2.max > 0
+    data = item.articles if data.size == 0
     y_max = number_with_delimiter(item.articles.max)
     title = item.to_s + " (" + pluralize(number_with_delimiter(item.articles_count), "article") + ")"
     width = labels.size * 7 + y_max.to_s.size * 6 + 10 + 10
