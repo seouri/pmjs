@@ -11,6 +11,7 @@ module ApplicationHelper
   end
 
   def items_table(items, offset = nil)
+    return "" if items[0].nil?
     tr = []
     td = []
     td.push(content_tag(:th, "No")) unless offset.nil?
