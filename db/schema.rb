@@ -14,13 +14,14 @@ ActiveRecord::Schema.define(:version => 20100319134124) do
   create_table "cosubjectships", :force => true do |t|
     t.integer "subject_id"
     t.integer "cosubject_id"
+    t.integer "year",            :limit => 2, :default => 0
     t.integer "articles_count",  :limit => 3
     t.integer "start_year",      :limit => 2, :default => 0
     t.integer "end_year",        :limit => 2, :default => 0
     t.text    "articles_counts"
   end
 
-  add_index "cosubjectships", ["subject_id", "articles_count"], :name => "index_cosubjectships_on_subject_id_and_articles_count"
+  add_index "cosubjectships", ["subject_id", "year", "articles_count"], :name => "index_cosubjectships_on_subject_id_and_year_and_articles_count"
 
   create_table "journal_subjects", :force => true do |t|
     t.integer "journal_id"

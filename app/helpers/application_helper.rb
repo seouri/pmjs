@@ -5,7 +5,7 @@ module ApplicationHelper
     start_decade = (item.start_year / 10).round * 10
     end_decade = (item.end_year / 10).round * 10
     start_decade.step(end_decade, 10) do |decade|
-      li.push(content_tag(:li, link_to_unless_current(decade.to_s + "s", :decade => decade)))
+      li.push(content_tag(:li, link_to_unless(decade == @decade, decade.to_s + "s", :decade => decade)))
     end
     content_tag(:ul, li.join("\n"), :class => "decades")
   end
@@ -99,9 +99,16 @@ module ApplicationHelper
     prev_offset = nil if prev_offset <= 0
     next_offset = @offset + @per_page
     pagination = []
-    pagination.push(link_to("Beginning")) if @offset > 0
-    pagination.push(link_to("Previous #{@per_page}", :o => prev_offset)) if @offset > @per_page
-    pagination.push(link_to("Next #{@per_page}", :o => next_offset))
+    pagination.push(link_to("Beginning", pagination_params(nil))) if @offset > 0
+    pagination.push(link_to("Previous #{@per_page}", pagination_params(prev_offset))) if @offset > @per_page
+    pagination.push(link_to("Next #{@per_page}", pagination_params(next_offset)))
     content_tag(:div, pagination.join("\n"), :class => "pagination")
+  end
+  
+  def pagination_params(offset)
+    p = { :o => offset }
+    p[:q] = params[:q] if params[:q].present?
+    p[:decade] = params[:decade] if @decade > 0
+    return p
   end
 end
