@@ -33,7 +33,7 @@ CREATE TABLE `cosubjectships` (
   `articles_counts` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `index_cosubjectships_on_subject_id_and_year_and_articles_count` (`subject_id`,`year`,`articles_count`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `journal_subjects` (
   PRIMARY KEY (`id`),
   KEY `index_journal_subjects_on_journal_id_year_direct_articles_count` (`journal_id`,`year`,`direct_articles_count`,`articles_count`),
   KEY `index_journal_subjects_on_subject_id_year_direct_articles_count` (`subject_id`,`year`,`direct_articles_count`,`articles_count`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `journals` (
   PRIMARY KEY (`id`),
   KEY `index_journals_on_abbr` (`abbr`),
   KEY `index_journals_on_articles_count` (`articles_count`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +126,7 @@ CREATE TABLE `mesh_trees` (
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_mesh_trees_on_parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ DROP TABLE IF EXISTS `schema_migrations`;
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   UNIQUE KEY `unique_schema_migrations` (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `subjects` (
   KEY `index_subjects_on_term` (`term`),
   KEY `index_subjects_on_articles_count` (`articles_count`),
   KEY `index_subjects_on_direct_articles_count` (`direct_articles_count`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
