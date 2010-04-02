@@ -78,7 +78,7 @@ CREATE TABLE `journal_subjects` (
 
 LOCK TABLES `journal_subjects` WRITE;
 /*!40000 ALTER TABLE `journal_subjects` DISABLE KEYS */;
-LOAD DATA LOCAL INFILE 'journal_subjects.dat' INTO TABLE `journal_subjects` (`journal_id`,`year`,`subject_id`,`direct_articles_count`,`descendant_articles_count`,`articles_count`);
+LOAD DATA LOCAL INFILE 'journal_subjects.dat' INTO TABLE `journal_subjects` (`journal_id`,`year`,`subject_id`,`direct_articles_count`,`descendant_articles_count`,`articles_count`,`start_year`,`end_year`,`direct_articles_counts`,`descendant_articles_counts`,`articles_counts`);
 /*!40000 ALTER TABLE `journal_subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 
