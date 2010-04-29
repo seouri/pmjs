@@ -13,15 +13,15 @@ module SubjectsHelper
     list = list.flatten.uniq.reject {|l| l.subject.nil?}.sort_by(&:id)
     tree = []
     highlight_id = subject.nil? ? nil : subject.id
-    treelist = content_tag(:div, treeview(0, list, tree, highlight_id).join(""), :id => "treelist")
-    content_tag(:div, link_to_unless_current("MeSH", subjects_path) + treelist, :id => "subject_tree")
+    treelist = content_tag(:div, treeview(0, list, tree, highlight_id).join("").html_safe, :id => "treelist")
+    content_tag(:div, (link_to_unless_current("MeSH", subjects_path) + treelist).html_safe, :id => "subject_tree")
   end
 
   def treeview(current_id, list, tree, highlight_id)
     if current_id > 0
       current = list.select {|l| l.id == current_id}[0].subject
       tree.push('<li class="expanded">')
-      tree.push(content_tag(:span, link_to_unless(current.id == highlight_id, current.term, current) + sparkline(current)))
+      tree.push(content_tag(:span, (link_to_unless(current.id == highlight_id, current.term, current) + sparkline(current)).html_safe))
     end
     children = list.select {|l| l.parent_id == current_id}
     if children.size > 0

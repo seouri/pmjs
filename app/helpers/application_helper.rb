@@ -7,7 +7,7 @@ module ApplicationHelper
     start_decade.step(end_decade, 10) do |decade|
       li.push(content_tag(:li, link_to_unless(decade == @decade, decade.to_s + "s", :decade => decade)))
     end
-    content_tag(:ul, li.join("\n"), :class => "decades")
+    content_tag(:ul, li.join("\n").html_safe, :class => "decades")
   end
 
   def items_table(items, offset = nil)
@@ -26,7 +26,7 @@ module ApplicationHelper
     td.push(content_tag(:th, "Descendant")) if items[0].respond_to?(:descendant_articles_count)
     td.push(content_tag(:th, "Total"))
     td.push(content_tag(:th, "")) if items[0].start_year > 0
-    tr.push(content_tag(:tr, td.join("\n")))
+    tr.push(content_tag(:tr, td.join("\n").html_safe))
     for item in items do
       td = []
       td.push(content_tag(:td, number_with_delimiter(offset + items.index(item) + 1), :class => "number")) unless offset.nil?
@@ -40,10 +40,10 @@ module ApplicationHelper
       td.push(content_tag(:td, number_with_delimiter(item.direct_articles_count), :class => "direct number")) if item.respond_to?(:direct_articles_count)
       td.push(content_tag(:td, number_with_delimiter(item.descendant_articles_count), :class => "descendant number")) if item.respond_to?(:descendant_articles_count)
       td.push(content_tag(:td, number_with_delimiter(item.articles_count), :class => "total number"))
-      td.push(content_tag(:td, sparkline(item))) if item.start_year > 0
-      tr.push(content_tag(:tr, td.join("\n")))
+      td.push(content_tag(:td, sparkline(item).html_safe)) if item.start_year > 0
+      tr.push(content_tag(:tr, td.join("\n").html_safe))
     end
-    content_tag(:table, tr.join("\n"))
+    content_tag(:table, tr.join("\n").html_safe)
   end
 
   def bar_graph(item)
@@ -91,7 +91,7 @@ module ApplicationHelper
     vgrids = labels.select {|y| y % 10 == 0}.map {|y| "V,DDDDDD,0,#{labels.index(y)},1,-1"}.join("|")
     chm.push(vgrids)
     source = Gchart.sparkline(:data => data, :size => size, :custom => "chm=#{chm.join("|")}&chxtc=0,0|1,0", :axis_labels => [["",item.start_year,""], ["",item.end_year,""]], :axis_with_labels => 'y,r')
-    image_tag(source)
+    image_tag(source).html_safe
   end
 
   def pagination
@@ -102,7 +102,7 @@ module ApplicationHelper
     pagination.push(link_to("Beginning", pagination_params(nil))) if @offset > 0
     pagination.push(link_to("Previous #{@per_page}", pagination_params(prev_offset))) if @offset > @per_page
     pagination.push(link_to("Next #{@per_page}", pagination_params(next_offset)))
-    content_tag(:div, pagination.join("\n"), :class => "pagination")
+    content_tag(:div, pagination.join("\n").html_safe, :class => "pagination")
   end
   
   def pagination_params(offset)
