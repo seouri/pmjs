@@ -7,7 +7,7 @@ module ApplicationHelper
     start_decade.step(end_decade, 10) do |decade|
       li.push(content_tag(:li, link_to_unless_current(decade.to_s + "s", :decade => decade)))
     end
-    content_tag(:ul, li.join("\n"), :class => "decades")
+    content_tag(:ul, li.join("\n").html_safe, :class => "decades")
   end
 
   def items_table(items, offset = nil)
@@ -26,9 +26,9 @@ module ApplicationHelper
       td.push(content_tag(:td, number_with_delimiter(item.descendant_articles_count), :class => "descendant number")) if item.respond_to?(:descendant_articles_count)
       td.push(content_tag(:td, number_with_delimiter(item.articles_count), :class => "total number"))
       td.push(content_tag(:td, sparkline(item))) if item.start_year > 0
-      tr.push(content_tag(:tr, td.join("\n")))
+      tr.push(content_tag(:tr, td.join("\n").html_safe))
     end
-    content_tag(:table, tr.join("\n"))
+    content_tag(:table, tr.join("\n").html_safe)
   end
 
   def bar_graph(item)
