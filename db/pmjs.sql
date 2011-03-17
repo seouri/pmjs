@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.1.45, for apple-darwin9.8.0 (i386)
 --
--- Host: localhost    Database: pmjs2
+-- Host: localhost    Database: pmjs3
 -- ------------------------------------------------------
 -- Server version	5.1.45
 
@@ -26,12 +26,13 @@ CREATE TABLE `cosubjectships` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subject_id` int(11) DEFAULT NULL,
   `cosubject_id` int(11) DEFAULT NULL,
+  `year` smallint(6) DEFAULT '0',
   `articles_count` mediumint(9) DEFAULT NULL,
   `start_year` smallint(6) DEFAULT '0',
   `end_year` smallint(6) DEFAULT '0',
   `articles_counts` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
-  KEY `index_cosubjectships_on_subject_id_and_articles_count` (`subject_id`,`articles_count`)
+  KEY `index_cosubjectships_on_subject_id_and_year_and_articles_count` (`subject_id`,`year`,`articles_count`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -60,6 +61,11 @@ CREATE TABLE `journal_subjects` (
   `direct_articles_count` smallint(6) DEFAULT '0',
   `descendant_articles_count` mediumint(9) DEFAULT '0',
   `articles_count` mediumint(9) DEFAULT '0',
+  `start_year` smallint(6) DEFAULT '0',
+  `end_year` smallint(6) DEFAULT '0',
+  `direct_articles_counts` text COLLATE utf8_unicode_ci,
+  `descendant_articles_counts` text COLLATE utf8_unicode_ci,
+  `articles_counts` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `index_journal_subjects_on_journal_id_year_direct_articles_count` (`journal_id`,`year`,`direct_articles_count`,`articles_count`),
   KEY `index_journal_subjects_on_subject_id_year_direct_articles_count` (`subject_id`,`year`,`direct_articles_count`,`articles_count`)
@@ -72,7 +78,7 @@ CREATE TABLE `journal_subjects` (
 
 LOCK TABLES `journal_subjects` WRITE;
 /*!40000 ALTER TABLE `journal_subjects` DISABLE KEYS */;
-LOAD DATA LOCAL INFILE 'journal_subjects.dat' INTO TABLE `journal_subjects` (`journal_id`,`year`,`subject_id`,`direct_articles_count`,`descendant_articles_count`,`articles_count`);
+LOAD DATA LOCAL INFILE 'journal_subjects.dat' INTO TABLE `journal_subjects` (`journal_id`,`year`,`subject_id`,`direct_articles_count`,`descendant_articles_count`,`articles_count`,`start_year`,`end_year`,`direct_articles_counts`,`descendant_articles_counts`,`articles_counts`);
 /*!40000 ALTER TABLE `journal_subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,6 +159,7 @@ CREATE TABLE `schema_migrations` (
 LOCK TABLES `schema_migrations` WRITE;
 /*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
 INSERT INTO `schema_migrations` VALUES ('20100313160250'),('20100313160646'),('20100313161137'),('20100317132221'),('20100319134124');
+INSERT INTO `schema_migrations` VALUES ('20100313160250'),('20100313160646'),('20100313161137'),('20100317132221'),('20100319134124');
 /*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,4 +207,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-03-24 16:11:00
+-- Dump completed on 2010-04-02  7:06:41

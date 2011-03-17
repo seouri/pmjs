@@ -3,6 +3,8 @@
 <%= bar_graph(@journal)%>
 <%= decades(@journal)%>
 
-<h2>Top Subjects<% if @decade > 0 %> in <%= @decade %><% end %></h2>
+<h2>Top Subjects<% if @decade > 0 %> in <%= @decade %>s<% end %></h2>
 
-<%= items_table(@journal.top(@decade)) %>
+<%= pagination %>
+<%= items_table(@journal.top(@decade, @offset), @offset) %>
+<%= pagination %>

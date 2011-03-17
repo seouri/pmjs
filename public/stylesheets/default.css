@@ -1,5 +1,15 @@
+body {
+  margin-top: 0;
+}
 #hd {
+  padding: 0.25em;
   background-color: #eee;
+}
+#hd a {
+  color: #333;
+}
+#hd a:hover {
+  color: #777;
 }
 
 .pagination {
@@ -11,6 +21,9 @@
 .pagination a {
   color: #333;
   padding: 0 0.25em;
+}
+.pagination a:hover {
+  color: #777;
 }
 
 ul.decades {
@@ -25,10 +38,12 @@ ul.decades {
   padding: 0.25em;
   font-weight: bold;
 }
-
 .decades li a {
   font-weight: normal;
   color: #333;
+}
+.decades li a:hover {
+  color: #777;
 }
 
 #subject_tree {
@@ -53,6 +68,6 @@ ul.decades {
   text-align: right;
 }
 
-td {
+td, th {
   border: 1px solid #ccc;
 }

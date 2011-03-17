@@ -24,11 +24,11 @@ class Subject < ActiveRecord::Base
     descendant_articles_counts.split(/\|/).map {|s| s.to_i}
   end
 
-  def top(year)
-    journal_subjects.top(year).includes(:journal)
+  def top(year, offset)
+    journal_subjects.top(year).includes(:journal).offset(offset)
   end
 
-  def top_cosubjects
-    cosubjectships.order("`cosubjectships`.articles_count desc").limit(15).includes(:subject)
+  def top_cosubjects(year, offset)
+    cosubjectships.where(:year => year).order("`cosubjectships`.articles_count desc").limit(15).includes(:subject).offset(offset)
   end
 end

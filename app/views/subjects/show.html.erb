@@ -1,16 +1,17 @@
 <h1><%= @subject.term %></h1>
 
-<%= bar_graph2(@subject)%>
+<%= bar_graph(@subject)%>
 <%= decades(@subject)%>
 
 <h2>Top Journals<% if @decade > 0 %> in <%= @decade %>s<% end %></h2>
 
-<%= items_table(@subject.top(@decade)) %>
-
-<h2>Top Cosubjects</h2>
-
-<%= items_table(@subject.top_cosubjects) %>
-
+<%= pagination %>
+<%= items_table(@subject.top(@decade, @offset), @offset) %>
+<%= pagination %>
+<h2>Top Cosubjects<% if @decade > 0 %> in <%= @decade %>s<% end %></h2>
+<%= pagination %>
+<%= items_table(@subject.top_cosubjects(@decade, @offset), @offset) %>
+<%= pagination %>
 <% content_for(:sidebar) do -%>
 <%= treelist(@subject) %>
 <script type="text/javascript">
